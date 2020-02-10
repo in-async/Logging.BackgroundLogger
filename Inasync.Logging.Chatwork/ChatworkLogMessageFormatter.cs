@@ -4,15 +4,28 @@ using Microsoft.Extensions.Logging;
 
 namespace Inasync.Logging.Chatwork {
 
+    /// <summary>
+    /// Chatwork に投稿する <see cref="LogMessage"/> の文字列フォーマッター。
+    /// </summary>
     public sealed class ChatworkLogMessageFormatter {
-        private readonly Func<LogMessage, string> _formatter;
-        private readonly string _headerText;
+        private readonly Func<LogMessage, string>? _formatter;
+        private readonly string? _headerText;
 
-        public ChatworkLogMessageFormatter(Func<LogMessage, string> formatter, string headerText) {
+        /// <summary>
+        /// <see cref="ChatworkLogMessageFormatter"/> クラスの新しいインスタンスを初期化します。
+        /// </summary>
+        /// <param name="formatter">優先される <see cref="LogMessage"/> の文字列フォーマッター。<c>null</c> の場合は既定のフォーマットが行われます。</param>
+        /// <param name="headerText">既定のフォーマットで使用されるヘッダー テキスト。</param>
+        public ChatworkLogMessageFormatter(Func<LogMessage, string>? formatter, string? headerText) {
             _formatter = formatter;
             _headerText = headerText;
         }
 
+        /// <summary>
+        /// 指定した <see cref="LogMessage"/> を文字列にフォーマットします。
+        /// </summary>
+        /// <param name="message">フォーマット対象のメッセージ。</param>
+        /// <returns><paramref name="message"/> をフォーマットしてできた文字列。</returns>
         public string Invoke(LogMessage message) {
             if (_formatter != null) {
                 return _formatter(message);
@@ -47,28 +60,16 @@ namespace Inasync.Logging.Chatwork {
         }
 
         private static string GetShortName(LogLevel logLevel) {
-            switch (logLevel) {
-                case LogLevel.Trace:
-                    return "trce";
-
-                case LogLevel.Debug:
-                    return "dbug";
-
-                case LogLevel.Information:
-                    return "info";
-
-                case LogLevel.Warning:
-                    return "warn";
-
-                case LogLevel.Error:
-                    return "fail";
-
-                case LogLevel.Critical:
-                    return "crit";
-
-                default:
-                    return Enum.GetName(typeof(LogLevel), logLevel);
-            }
+            return logLevel switch
+            {
+                LogLevel.Trace => "trce",
+                LogLevel.Debug => "dbug",
+                LogLevel.Information => "info",
+                LogLevel.Warning => "warn",
+                LogLevel.Error => "fail",
+                LogLevel.Critical => "crit",
+                _ => Enum.GetName(typeof(LogLevel), logLevel),
+            };
         }
     }
 }

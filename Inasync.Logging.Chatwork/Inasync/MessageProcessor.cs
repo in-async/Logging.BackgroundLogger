@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,7 +34,6 @@ namespace Inasync {
         public MessageProcessor(Action<TMessage> consumer, int queueSize) : this(consumer, new BlockingCollection<TMessage>(queueSize)) { }
 
         private MessageProcessor(Action<TMessage> consumer, BlockingCollection<TMessage> messageQueue) {
-            Debug.Assert(messageQueue != null);
             _consumer = consumer ?? throw new ArgumentNullException(nameof(consumer));
             _messageQueue = messageQueue;
 

@@ -46,19 +46,17 @@ namespace Inasync.Logging.Chatwork {
             var endpoint = "https://api.chatwork.com/v2/rooms/" + _roomId + "/messages";
             var escapedMessage = Uri.EscapeDataString(message);
 
-            using (var request = new HttpRequestMessage(HttpMethod.Post, endpoint) {
+            using var request = new HttpRequestMessage(HttpMethod.Post, endpoint) {
                 Headers = { { "X-ChatWorkToken", _apiToken } },
                 Content = new ByteArrayContent(Encoding.ASCII.GetBytes("body=" + escapedMessage)) {
                     Headers = { ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded") },
                 }
-            }) {
-                try {
-                    using (var res = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false)) {
-                        res.EnsureSuccessStatusCode();
-                    }
-                }
-                catch (HttpRequestException ex) { throw new ChatworkApiException(message: null, ex); }
+            };
+            try {
+                using var res = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                res.EnsureSuccessStatusCode();
             }
+            catch (HttpRequestException ex) { throw new ChatworkApiException(message: null, ex); }
         }
     }
 }

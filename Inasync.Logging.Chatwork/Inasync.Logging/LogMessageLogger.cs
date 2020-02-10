@@ -1,19 +1,24 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 
 namespace Inasync.Logging {
 
+    /// <summary>
+    /// ログをメッセージに変換し、<see cref="MessageProcessor{TMessage}"/> のキューに追加するロガー。
+    /// </summary>
     public sealed class LogMessageLogger : ILogger {
         private readonly string _categoryName;
         private readonly MessageProcessor<LogMessage> _messageProcessor;
 
+        /// <summary>
+        /// <see cref="LogMessageLogger"/> クラスの新しいインスタンスを初期化します。
+        /// </summary>
+        /// <param name="categoryName">カテゴリ名。</param>
+        /// <param name="messageProcessor">ログ メッセージをバックグラウンドで処理するメッセージ プロセッサー。</param>
         public LogMessageLogger(string categoryName, MessageProcessor<LogMessage> messageProcessor) {
-            Debug.Assert(messageProcessor != null);
-
-            _categoryName = categoryName;
-            _messageProcessor = messageProcessor;
+            _categoryName = categoryName ?? throw new ArgumentNullException(nameof(categoryName));
+            _messageProcessor = messageProcessor ?? throw new ArgumentNullException(nameof(messageProcessor));
         }
 
         /// <inheritdoc />
@@ -29,7 +34,7 @@ namespace Inasync.Logging {
         }
 
         /// <inheritdoc />
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter) {
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter) {
             if (formatter == null) { throw new ArgumentNullException(nameof(formatter)); }
             if (!IsEnabled(logLevel)) { return; }
 

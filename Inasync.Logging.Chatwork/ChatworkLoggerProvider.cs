@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -20,8 +19,11 @@ namespace Inasync.Logging.Chatwork {
         /// <see cref="ChatworkLoggerProvider"/> クラスの新しいインスタンスを初期化します。
         /// </summary>
         /// <param name="optionsMonitor">ロガーの設定。</param>
+        /// <exception cref="ArgumentNullException"><see cref="ChatworkLoggerOptions.ApiToken"/> or <see cref="ChatworkLoggerOptions.RoomId"/> is <c>null</c>.</exception>
         public ChatworkLoggerProvider(IOptionsMonitor<ChatworkLoggerOptions> optionsMonitor) {
             var options = optionsMonitor?.CurrentValue ?? throw new ArgumentNullException(nameof(optionsMonitor));
+            if (options.ApiToken == null) { throw new ArgumentNullException(nameof(options.ApiToken)); }
+            if (options.RoomId == null) { throw new ArgumentNullException(nameof(options.RoomId)); }
 
             _formatter = new ChatworkLogMessageFormatter(options.LogMessageFormatter, headerText: options.HeaderText);
             _chatworkApi = new ChatworkMessageApi(apiToken: options.ApiToken, roomId: options.RoomId);
@@ -44,7 +46,6 @@ namespace Inasync.Logging.Chatwork {
 
         private void WriteMessage(LogMessage message) {
             string text = _formatter.Invoke(message);
-            Debug.Assert(text != null);
 
             try {
                 _chatworkApi.InsertAsync(text, CancellationToken.None).GetAwaiter().GetResult();

@@ -20,7 +20,7 @@ namespace Inasync.Logging.Chatwork {
         /// 指定したエラー メッセージを使用して、<see cref="ChatworkApiException"/> クラスの新しいインスタンスを初期化します。
         /// </summary>
         /// <param name="message">エラーを説明するメッセージ。</param>
-        public ChatworkApiException(string message) : base(message ?? _defaultMessage) {
+        public ChatworkApiException(string? message) : base(message ?? _defaultMessage) {
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Inasync.Logging.Chatwork {
         /// </summary>
         /// <param name="message">例外の原因を説明するエラー メッセージ。</param>
         /// <param name="innerException">現在の例外の原因である例外。内部例外が指定されていない場合は <c>null</c> 参照。</param>
-        public ChatworkApiException(string message, Exception innerException) : base(message ?? _defaultMessage, innerException) {
+        public ChatworkApiException(string? message, Exception? innerException) : base(message ?? _defaultMessage, innerException) {
         }
 
         /// <summary>

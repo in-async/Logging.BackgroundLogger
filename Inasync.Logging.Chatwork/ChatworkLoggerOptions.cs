@@ -9,25 +9,25 @@ namespace Inasync.Logging.Chatwork {
 
         /// <summary>
         /// Chatwork API のアクセス トークン。
-        /// <para>Not null.</para>
+        /// <para>required.</para>
         /// </summary>
-        public string ApiToken { get; set; }
+        public string? ApiToken { get; set; }
 
         /// <summary>
         /// ログの送信先ルーム ID。
-        /// <para>Not null.</para>
+        /// <para>required.</para>
         /// </summary>
-        public string RoomId { get; set; }
+        public string? RoomId { get; set; }
 
         /// <summary>
         /// ログのヘッダー テキスト。
         /// </summary>
-        public string HeaderText { get; set; }
+        public string? HeaderText { get; set; }
 
         /// <summary>
         /// ログ テキストを生成するデリゲート。
         /// </summary>
-        public Func<LogMessage, string> LogMessageFormatter { get; set; }
+        public Func<LogMessage, string>? LogMessageFormatter { get; set; }
 
         /// <summary>
         /// バックグラウンド キューの最大サイズ。
