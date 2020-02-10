@@ -2,7 +2,7 @@
 using System.Text;
 using Microsoft.Extensions.Logging;
 
-namespace Inasync.Logging {
+namespace Inasync.Logging.Chatwork {
 
     public sealed class ChatworkLogMessageFormatter {
         private readonly Func<LogMessage, string> _formatter;

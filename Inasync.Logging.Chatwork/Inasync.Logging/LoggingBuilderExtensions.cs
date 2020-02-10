@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 
-namespace Inasync.Logging {
+namespace Inasync {
 
     /// <summary>
     /// ロガーを構成する為のヘルパー クラス。

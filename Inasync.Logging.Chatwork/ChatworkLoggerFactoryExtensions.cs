@@ -1,7 +1,8 @@
 ﻿using System;
+using Inasync.Logging.Chatwork;
 using Microsoft.Extensions.Logging;
 
-namespace Inasync.Logging {
+namespace Inasync {
 
     /// <summary>
     /// Chatwork ロガーを構成するヘルパー クラス。

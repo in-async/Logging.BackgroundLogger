@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Inasync.Logging {
+namespace Inasync.Logging.Chatwork {
 
     /// <summary>
     /// Chatwork API とメッセージに関するやり取りを行います。

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Inasync.Logging {
+namespace Inasync.Logging.Chatwork {
 
     /// <summary>
     /// Chatwork ロガーの設定。

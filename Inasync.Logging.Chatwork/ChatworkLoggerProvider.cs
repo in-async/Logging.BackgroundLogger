@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Inasync.Logging {
+namespace Inasync.Logging.Chatwork {
 
     /// <summary>
     /// <see cref="ILoggerProvider"/> の Chatwork 実装。

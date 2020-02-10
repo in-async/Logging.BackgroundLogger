@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Inasync.Logging {
+namespace Inasync.Logging.Chatwork {
 
     /// <summary>
     /// Chatwork API への接続中に生じた例外を表すクラス。
