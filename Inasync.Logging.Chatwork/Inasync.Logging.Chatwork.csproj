@@ -3,7 +3,10 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <RootNamespace>Inasync.Logging</RootNamespace>
+    <Authors>inasync</Authors>
+    <Description>A Library that provides an ILoggerProvider implementation that posts log messages to any room in Chatwork.</Description>
+    <PackageProjectUrl>https://github.com/in-async/Logging.Chatwork</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/in-async/Logging.Chatwork/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>library logging chatwork</PackageTags>
     <Version>0.1.0</Version>
   </PropertyGroup>
