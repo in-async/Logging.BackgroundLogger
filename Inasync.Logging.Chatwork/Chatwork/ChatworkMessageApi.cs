@@ -10,7 +10,7 @@ namespace Inasync.Logging.Chatwork {
     /// <summary>
     /// Chatwork API とメッセージに関するやり取りを行います。
     /// </summary>
-    public sealed class ChatworkMessageApi : IDisposable {
+    public sealed class ChatworkMessageApi {
         private readonly string _apiToken;
         private readonly string _roomId;
         private readonly HttpClient _httpClient;
@@ -20,16 +20,12 @@ namespace Inasync.Logging.Chatwork {
         /// </summary>
         /// <param name="apiToken">API トークン。</param>
         /// <param name="roomId">メッセージの対象となるルーム ID。</param>
-        /// <exception cref="ArgumentNullException"><paramref name="apiToken"/> or <paramref name="roomId"/> is <c>null</c>.</exception>
-        public ChatworkMessageApi(string apiToken, string roomId) {
+        /// <param name="httpClient">Chatwork API との通信に使用する HTTP クライアント。</param>
+        /// <exception cref="ArgumentNullException"><paramref name="apiToken"/> or <paramref name="roomId"/> or <paramref name="httpClient"/> is <c>null</c>.</exception>
+        public ChatworkMessageApi(string apiToken, string roomId, HttpClient httpClient) {
             _apiToken = apiToken ?? throw new ArgumentNullException(nameof(apiToken));
             _roomId = roomId ?? throw new ArgumentNullException(nameof(roomId));
-            _httpClient = new HttpClient();
-        }
-
-        /// <inheritdoc />
-        public void Dispose() {
-            _httpClient.Dispose();
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         /// <summary>
