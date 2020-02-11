@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,8 +46,8 @@ namespace Inasync.Logging.Chatwork {
             await _processor.DisposeAsync().ConfigureAwait(false);
         }
 
-        private void WriteMessages(IEnumerable<LogMessage> messages) {
-            foreach (var message in messages) {
+        private void WriteMessages(IBlockingConsumerCollection<LogMessage> messages) {
+            foreach (var message in messages.GetConsumingEnumerable()) {
                 string text = _formatter.Invoke(message);
 
                 try {

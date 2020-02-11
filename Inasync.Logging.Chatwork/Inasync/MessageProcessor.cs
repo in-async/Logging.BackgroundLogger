@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +10,7 @@ namespace Inasync {
     /// </summary>
     /// <typeparam name="TMessage">対象のメッセージ型。</typeparam>
     public sealed class MessageProcessor<TMessage> : IDisposable, IAsyncDisposable {
-        private readonly Action<IEnumerable<TMessage>> _consumer;
+        private readonly Action<IBlockingConsumerCollection<TMessage>> _consumer;
         private readonly BlockingCollection<TMessage> _messageQueue;
         private readonly Task _consumerTask;
         private bool _disposed = false;
@@ -22,7 +21,7 @@ namespace Inasync {
         /// </summary>
         /// <param name="consumer">メッセージを処理するデリゲート。</param>
         /// <exception cref="ArgumentNullException"><paramref name="consumer"/> is <c>null</c>.</exception>
-        public MessageProcessor(Action<IEnumerable<TMessage>> consumer) : this(consumer, new BlockingCollection<TMessage>()) { }
+        public MessageProcessor(Action<IBlockingConsumerCollection<TMessage>> consumer) : this(consumer, new BlockingCollection<TMessage>()) { }
 
         /// <summary>
         /// 上限を指定して、<see cref="MessageProcessor{TMessage}"/> クラスの新しいインスタンスを初期化します。
@@ -32,9 +31,9 @@ namespace Inasync {
         /// <param name="queueSize">メッセージ キューのサイズ上限。</param>
         /// <exception cref="ArgumentNullException"><paramref name="consumer"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="queueSize"/> は正の値ではありません。</exception>
-        public MessageProcessor(Action<IEnumerable<TMessage>> consumer, int queueSize) : this(consumer, new BlockingCollection<TMessage>(queueSize)) { }
+        public MessageProcessor(Action<IBlockingConsumerCollection<TMessage>> consumer, int queueSize) : this(consumer, new BlockingCollection<TMessage>(queueSize)) { }
 
-        private MessageProcessor(Action<IEnumerable<TMessage>> consumer, BlockingCollection<TMessage> messageQueue) {
+        private MessageProcessor(Action<IBlockingConsumerCollection<TMessage>> consumer, BlockingCollection<TMessage> messageQueue) {
             _consumer = consumer ?? throw new ArgumentNullException(nameof(consumer));
             _messageQueue = messageQueue;
 
@@ -81,7 +80,7 @@ namespace Inasync {
         }
 
         private void ProcessMessageQueue() {
-            _consumer(_messageQueue.GetConsumingEnumerable());
+            _consumer(new BlockingConsumerCollection<TMessage>(_messageQueue));
         }
     }
 }
