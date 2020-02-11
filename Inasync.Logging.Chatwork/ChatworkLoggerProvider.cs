@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -27,7 +28,7 @@ namespace Inasync.Logging.Chatwork {
 
             _formatter = new ChatworkLogMessageFormatter(options.LogMessageFormatter, headerText: options.HeaderText);
             _chatworkApi = new ChatworkMessageApi(apiToken: options.ApiToken, roomId: options.RoomId);
-            _processor = new MessageProcessor<LogMessage>(consumer: WriteMessage, queueSize: options.BackgroundQueueSize);
+            _processor = new MessageProcessor<LogMessage>(consumer: WriteMessages, queueSize: options.BackgroundQueueSize);
         }
 
         /// <inheritdoc />
@@ -44,13 +45,15 @@ namespace Inasync.Logging.Chatwork {
             _chatworkApi.Dispose();
         }
 
-        private void WriteMessage(LogMessage message) {
-            string text = _formatter.Invoke(message);
+        private void WriteMessages(IEnumerable<LogMessage> messages) {
+            foreach (var message in messages) {
+                string text = _formatter.Invoke(message);
 
-            try {
-                _chatworkApi.InsertAsync(text, CancellationToken.None).GetAwaiter().GetResult();
+                try {
+                    _chatworkApi.InsertAsync(text, CancellationToken.None).GetAwaiter().GetResult();
+                }
+                catch (ChatworkApiException) { }
             }
-            catch (ChatworkApiException) { }
         }
     }
 }
