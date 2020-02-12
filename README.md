@@ -8,3 +8,38 @@
 ## Target Frameworks
 - .NET Standard 2.0
 - .NET Standard 2.1
+
+## Usage
+appsettings.json
+```json
+{
+  "Logging": {
+    ...
+    "Chatwork": {
+      // Default LogLevel is warning.
+      //"LogLevel": {
+      // "Default": "Warning"
+      //},
+      "ApiToken"           : "Required: API Token",
+      "RoomId"             : "Required: Room ID to which log messages are posted",
+      "HeaderText"         : "Optional: Text to be inserted in the log message header",
+      "BackgroundQueueSize": "Optional: The size of the background queue for posting messages (default: 1024)"
+    }
+  },
+  ...
+}
+```
+
+For using `IHostBuilder`:
+```cs
+hostBuilder.ConfigureLogging(logging => {
+    logging.AddChatworkLogger();
+});
+```
+
+For using `ILoggerFactory`:
+```cs
+var loggerFactory = LoggerFactory.Create(builder => {
+    builder.AddChatworkLogger();
+});
+```
