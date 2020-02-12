@@ -11,7 +11,7 @@
 
 ## Usage
 appsettings.json
-```json
+```js
 {
   "Logging": {
     ...
