@@ -16,7 +16,7 @@ appsettings.json
   "Logging": {
     ...
     "Chatwork": {
-      // Default LogLevel is warning.
+      // The default log level for chatwork logger is warning
       //"LogLevel": {
       // "Default": "Warning"
       //},
