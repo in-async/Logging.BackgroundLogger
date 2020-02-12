@@ -14,10 +14,8 @@ namespace Inasync.Logging.Chatwork.Tests {
         public void Usage() {
             using var loggerFactory = LoggerFactory.Create(builder => {
                 // Chatwork Logger を追加。
-                builder.AddChatworkLogger();
-
-                // Chatwork Logger の設定。ここではコードで設定しているが、通常は appsettings.json から設定する方が簡単。
-                builder.Services.Configure<ChatworkLoggerOptions>(options => {
+                builder.AddChatworkLogger(options => {
+                    // Chatwork Logger の設定。ここではコードで設定しているが、通常は appsettings.json から設定する方が簡単。
                     options.ApiToken = "API Token";
                     options.RoomId = "RoomID";
                 });
