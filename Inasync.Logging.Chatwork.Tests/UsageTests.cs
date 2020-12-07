@@ -18,10 +18,10 @@ namespace Inasync.Logging.Chatwork.Tests {
                     // Chatwork Logger の設定。ここではコードで設定しているが、通常は appsettings.json から設定する方が簡単。
                     options.ApiToken = "API Token";
                     options.RoomId = "RoomID";
-                });
 
-                // テストなので、実際に HTTP リクエストが送信されないよう、ダミーの HttpClient をインジェクション。
-                builder.Services.AddSingleton(new HttpClient(new SpyHttpMessageHandler()));
+                    // テストなので、実際に HTTP リクエストが送信されないよう、ダミーの HttpClient をインジェクション。
+                    options.HttpClient = new HttpClient(new SpyHttpMessageHandler());
+                });
             });
 
             ILogger logger = loggerFactory.CreateLogger<UsageTests>();
@@ -34,10 +34,10 @@ namespace Inasync.Logging.Chatwork.Tests {
             // Arrange
             var handler = new SpyHttpMessageHandler();
             using (var loggerFactory = LoggerFactory.Create(builder => {
-                builder.Services.AddSingleton(new HttpClient(handler));
                 builder.Services.Configure<ChatworkLoggerOptions>(options => {
                     options.ApiToken = "API Token";
                     options.RoomId = "RoomID";
+                    options.HttpClient = new HttpClient(handler);
                 });
                 builder.AddChatworkLogger();
             })) {
@@ -60,8 +60,8 @@ namespace Inasync.Logging.Chatwork.Tests {
                 builder.Services.Configure<ChatworkLoggerOptions>(options => {
                     options.ApiToken = "API Token";
                     options.RoomId = "RoomID";
+                    options.HttpClient = new HttpClient(handler);
                 });
-                builder.Services.AddSingleton(new HttpClient(handler));
             })) {
                 ILogger logger = loggerFactory.CreateLogger<UsageTests>();
 
@@ -87,8 +87,8 @@ namespace Inasync.Logging.Chatwork.Tests {
                     options.ApiToken = "API Token";
                     options.RoomId = "RoomID";
                     options.HeaderText = "Header Text";
+                    options.HttpClient = new HttpClient(handler);
                 });
-                builder.Services.AddSingleton(new HttpClient(handler));
             })) {
                 ILogger logger = loggerFactory.CreateLogger<UsageTests>();
 
@@ -114,8 +114,8 @@ namespace Inasync.Logging.Chatwork.Tests {
                     options.ApiToken = "API Token";
                     options.RoomId = "RoomID";
                     options.LogMessageFormatter = message => "Custom Message";
+                    options.HttpClient = new HttpClient(handler);
                 });
-                builder.Services.AddSingleton(new HttpClient(handler));
             })) {
                 ILogger logger = loggerFactory.CreateLogger<UsageTests>();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 
 namespace Inasync.Logging.Chatwork {
 
@@ -28,6 +29,12 @@ namespace Inasync.Logging.Chatwork {
         /// ログ テキストを生成するデリゲート。
         /// </summary>
         public Func<LogMessage, string>? LogMessageFormatter { get; set; }
+
+        /// <summary>
+        /// Chatwork API との通信に使用する HTTP クライアント。
+        /// <c>null</c> の場合は既定の <see cref="HttpClient"/> で代用されます。
+        /// </summary>
+        public HttpClient? HttpClient { get; set; }
 
         /// <summary>
         /// バックグラウンド キューの最大サイズ。
